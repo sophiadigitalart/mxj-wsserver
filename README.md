@@ -16,7 +16,7 @@
 #####Outputs:
  - start: The server has started.
  - stop: The server has stopped.
- - start *<client_id>: A new Websocket has been opened and assigned this client_id (number)
+ - start \[client_id\]: A new Websocket has been opened and assigned this client_id (number)
  - stop \[client_id\]: The websocket with this id has been closed
  - \[client_id\] \[args..\]: A message from the Websocket with this id has been received and split to args via Atom.parse
 
