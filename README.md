@@ -9,16 +9,16 @@
 #####Understands:
  - start: Start the server
  - stop: Stop the server
- - port *<port>*: Set the port
- - webroot *<path>*: Set the webroot
- - *<client_id>* *<args..>*: Send the args as one string to the client with this id
+ - port \[port\]: Set the port
+ - webroot \[path\]: Set the webroot
+ - \[client_id\] \[args..\]: Send the args as one string to the client with this id
 	
 #####Outputs:
  - start: The server has started.
  - stop: The server has stopped.
- - start *<client_id>*: A new Websocket has been opened and assigned this client_id (number)
- - stop *<client_id>*: The websocket with this id has been closed
- - *<client_id>* *<args..>*: A message from the Websocket with this id has been received and split to args via Atom.parse
+ - start *<client_id>: A new Websocket has been opened and assigned this client_id (number)
+ - stop \[client_id\]: The websocket with this id has been closed
+ - \[client_id\] \[args..\]: A message from the Websocket with this id has been received and split to args via Atom.parse
 
 #####Webroot:
  - Can't be escaped via '..'
