@@ -31,7 +31,7 @@ public class WsServer {
 	private Runnable closeListener;
 	private Consumer<Throwable> errorHandler;
 	private final FileResolver fileResolver = new FileResolver();
-	private int port = 6666;
+	private int port = 7475;
 	private ServerSocket serverSocket;
 
 	class Loop implements Runnable {
