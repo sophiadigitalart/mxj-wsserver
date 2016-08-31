@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,9 +45,8 @@ public class Request implements Runnable {
 
 	public void run() {
 		try {
-			socket.setSoTimeout(500);
+			socket.setSoTimeout(1000);
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
 			String line = in.readLine();
 			String[] firstLine = line.split(" ");
 			String method = firstLine[0];
@@ -67,6 +67,10 @@ public class Request implements Runnable {
 			}
 			else respond(fileResolver.get(path));
 		} catch(Exception e) {
+			if(e instanceof SocketTimeoutException) {
+				MaxObject.post("Socket read timed out -> Browser quirk?");
+				return;
+			}
 			MaxObject.showException("Request error", e);
 		} finally {
 			IgnoreError.close(socket);
