@@ -7,6 +7,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import com.cycling74.max.MaxObject;
+
 import wsserver.util.Consumer;
 import wsserver.util.IgnoreError;
 
@@ -36,14 +38,19 @@ public class WsServer {
 
 	class Loop implements Runnable {
 		public void run() {
+			MaxObject.post("WsServer.Loop: accepting connections on port " + serverSocket.getLocalPort());
 			try {
 				while(true) {
 					Socket s = serverSocket.accept();
+					MaxObject.post("WsServer.Loop: Accepted connection from " + s.getRemoteSocketAddress()); 
 					executorService.submit(new Request(fileResolver, websocketHandler, s));
 				}
-			} catch (IOException e) {
-				if(state != State.stopping) setError(e);
-			}		
+			} catch(Exception e) {
+				if(state == State.stopping && e instanceof IOException) return;
+				setError(e);
+			} finally {
+				MaxObject.post("WsServer.Loop: no longer accepting connections");
+			}
 		}
 	}
 
@@ -111,6 +118,7 @@ public class WsServer {
 	}
 	
 	private synchronized void setError(Throwable t) {
+		MaxObject.showException("WsServer.setError", t);
 		if(state != State.error) IgnoreError.accept(errorHandler, t);
 		state = State.error;
 		stop();

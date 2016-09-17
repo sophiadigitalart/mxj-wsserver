@@ -2,6 +2,8 @@ package wsserver.server;
 
 import java.io.File;
 
+import com.cycling74.max.MaxObject;
+
 /*
  * 
  * The FileResolver finds Files from the given root path.
@@ -26,6 +28,7 @@ public class FileResolver {
 	public void setRoot(File root) {
 		if(!root.exists() || !root.isDirectory()) throw new IllegalArgumentException("root must be directory");
 		this.root = root;
+		MaxObject.post("FileResolver: set file root to " + root.getAbsolutePath());
 	}
 	
 	public File get(String path) {
