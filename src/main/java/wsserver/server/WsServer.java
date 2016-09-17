@@ -33,7 +33,7 @@ public class WsServer {
 	private Runnable closeListener;
 	private Consumer<Throwable> errorHandler;
 	private final FileResolver fileResolver = new FileResolver();
-	private int port = 7475;
+	private int port = 8080;
 	private ServerSocket serverSocket;
 
 	class Loop implements Runnable {
@@ -83,7 +83,7 @@ public class WsServer {
 	}
 
 	public void setPort(int port) {
-		if(port < 80 || port > 0xffff) throw new IllegalArgumentException("port not in range [80,65535]");
+		if(port < 8080 || port > 0xffff) throw new IllegalArgumentException("port not in range [8080,65535]");
 		this.port = port;
 		if(state == State.starting || state == State.running) restart();
 	}
