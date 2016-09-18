@@ -61,9 +61,9 @@ public class Request implements Runnable {
 				if(sp.length != 2) throw new Exception("Can't parse Header line: " + line);
 				headers.put(sp[0].trim(), sp[1].trim());
 			}
-			MaxObject.post("Request: handle request from " + socket.getRemoteSocketAddress() + " with path " + path);
+			MaxObject.post("Request #" + rid + ": handle request from " + socket.getRemoteSocketAddress() + " with path " + path);
 			if("websocket".equals(headers.get("Upgrade"))) {
-				MaxObject.post("Request: Upgrade to websocket");
+				MaxObject.post("Request #" + rid + ": Upgrade to websocket");
 				upgrade();
 				Websocket ws = new Websocket(socket);
 				websocketHandler.accept(ws);
@@ -72,10 +72,10 @@ public class Request implements Runnable {
 			else respond(path);
 		} catch(Exception e) {
 			if(e instanceof SocketTimeoutException) {
-				MaxObject.post("Request: Socket read timed out");
+				MaxObject.post("Request #" + rid + ": Socket read timed out");
 				return;
 			}
-			MaxObject.showException("Request: Unexpected Exception", e);
+			MaxObject.showException("Request #" + rid + ": Unexpected Exception", e);
 		} finally {
 			IgnoreError.close(socket);
 		}
@@ -96,11 +96,11 @@ public class Request implements Runnable {
 		File file = fileResolver.get(path);
 		OutputStream os = socket.getOutputStream();
 		if(file == null) {
-			MaxObject.post("Request: Respond with 404 for request path " + path);
+			MaxObject.post("Request #" + rid + ": Respond with 404 for request path " + path);
 			os.write("HTTP/1.1 404 Not Found\r\n\r\n".getBytes());
 			return;
 		}
-		MaxObject.post("Request: Respond with file " + file.getAbsolutePath() + " for request path " + path);
+		MaxObject.post("Request #" + rid + ": Respond with file " + file.getAbsolutePath() + " for request path " + path);
 
 		String name = file.getName();
 		String ext = name.substring(name.lastIndexOf('.') + 1);

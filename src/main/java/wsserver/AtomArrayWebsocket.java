@@ -32,13 +32,13 @@ public class AtomArrayWebsocket extends Consumer<Websocket> {
 	}
 
 	public void send(Atom[] input) {
-		try {
-			int client_id = input[0].getInt();
-			Websocket websocket = sockets.get(client_id);
-			websocket.send(Atom.toOneString(Atom.removeFirst(input)));
-		} catch(Exception e) {
-			MaxObject.showException("can't send message [" + Atom.toOneString(input) + "]", e);
+		int wsid = input[0].getInt();
+		Websocket websocket = sockets.get(wsid);
+		if(websocket == null) {
+			MaxObject.error("Websocket #" + wsid + " not found");
+			return;
 		}
+		websocket.send(Atom.toOneString(Atom.removeFirst(input)));
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class AtomArrayWebsocket extends Consumer<Websocket> {
 			public void accept(Throwable t) {
 				maxObject.outlet(0, "stop", wsid_a);
 				sockets.remove(websocket.getId());
-				if(!"Socket closed".equals(t.getMessage())) MaxObject.showException("ApiServer websocket error", t);
+				if(!"Socket closed".equals(t.getMessage())) MaxObject.showException("Websocket #" + websocket.getId() + " onError", t);
 			}
 		});
 	}
