@@ -87,7 +87,7 @@ public class Websocket {
 	}
 	
 	private synchronized void close(Throwable err) {
-		if(err != null) IgnoreError.accept(errorHandler, err);
+		if(err != null && !"Socket closed".equals(err.getMessage())) IgnoreError.accept(errorHandler, err);
 		else IgnoreError.run(closeListener);
 		IgnoreError.close(socket);
 	}

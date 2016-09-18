@@ -61,6 +61,7 @@ public class AtomArrayWebsocket extends Consumer<Websocket> {
 			public void run() {
 				maxObject.outlet(0, "stop", wsid_a);
 				sockets.remove(websocket.getId());
+				MaxObject.post("Websocket #" + websocket.getId() + " closed");
 			}
 		});
 
@@ -68,7 +69,7 @@ public class AtomArrayWebsocket extends Consumer<Websocket> {
 			public void accept(Throwable t) {
 				maxObject.outlet(0, "stop", wsid_a);
 				sockets.remove(websocket.getId());
-				if(!"Socket closed".equals(t.getMessage())) MaxObject.showException("Websocket #" + websocket.getId() + " onError", t);
+				MaxObject.showException("Websocket #" + websocket.getId() + " onError", t);
 			}
 		});
 	}
