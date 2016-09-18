@@ -11,6 +11,12 @@ public class IgnoreError {
 		} catch(Exception e) {}
 	}
 	
+	public static void run(Runner r) {
+		try {
+			r.run();
+		} catch(Exception e) {}
+	}
+	
 	public static <T extends Object> void accept(Consumer<T> consumer, T object) {
 		try {
 			consumer.accept(object);

@@ -6,13 +6,14 @@ import java.net.Socket;
 
 import wsserver.util.Consumer;
 import wsserver.util.IgnoreError;
+import wsserver.util.Runner;
 
 
 public class WebsocketImpl implements Websocket {
 
 	private final Socket socket;
 	private Consumer<String> messageHandler;
-	private Runnable closeListener;
+	private Runner closeListener;
 	private Consumer<Throwable> errorHandler;
 
 	public WebsocketImpl(Socket socket) {
@@ -23,7 +24,7 @@ public class WebsocketImpl implements Websocket {
 		this.messageHandler = handler;
 	}
 
-	public void onClose(Runnable listener) {
+	public void onClose(Runner listener) {
 		this.closeListener = listener;
 	}
 	

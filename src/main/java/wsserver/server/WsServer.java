@@ -11,6 +11,8 @@ import com.cycling74.max.MaxObject;
 
 import wsserver.util.Consumer;
 import wsserver.util.IgnoreError;
+import wsserver.util.Runner;
+import wsserver.util.Sha1;
 
 /*
  * 
@@ -24,6 +26,21 @@ import wsserver.util.IgnoreError;
 
 public class WsServer {
 
+	
+	@SuppressWarnings("unused")
+	public WsServer() {
+		//mention all classes that will be used later
+		//without it, ClassNotFoundExceptions, invisible errors (methods literally stopping on some line)
+		//and even Segfaults in the frozen Device have been observed.
+		//call it static class allocation.
+		IgnoreError ign = new IgnoreError();
+		Loop loop = new Loop();
+		Request request = new Request(null,null,null);
+		Websocket ws = new WebsocketImpl(null);
+		Sha1 sha = new Sha1();
+		Runner r = new Runner();
+	}
+	
 	enum State { starting, running, stopping, stopped, error }
 	
 	private State state = State.stopped;

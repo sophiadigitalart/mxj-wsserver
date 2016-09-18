@@ -8,6 +8,7 @@ import com.cycling74.max.MaxObject;
 
 import wsserver.server.Websocket;
 import wsserver.util.Consumer;
+import wsserver.util.Runner;
 
 /*
  * This class is used to bridge communication from Websocket to max.
@@ -20,7 +21,7 @@ import wsserver.util.Consumer;
  */
 
 
-public class AtomArrayWebsocket implements Consumer<Websocket> {
+public class AtomArrayWebsocket extends Consumer<Websocket> {
 	final static Atom msg = Atom.newAtom("msg");
 
 	private static int wsids = 0;
@@ -57,7 +58,7 @@ public class AtomArrayWebsocket implements Consumer<Websocket> {
 			}
 		});
 
-		websocket.onClose(new Runnable() {
+		websocket.onClose(new Runner() {
 			public void run() {
 				maxObject.outlet(0, "stop", wsid_a);
 				sockets.remove(wsid);
