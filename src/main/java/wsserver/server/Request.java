@@ -30,7 +30,9 @@ import wsserver.util.Sha1;
 
 public class Request implements Runnable {
 	static String wsIdent = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-
+	private static int rids = 0;
+	private final int rid = ++rids;
+	
 	private final Consumer<Websocket> websocketHandler;
 	private final FileResolver fileResolver;
 	private final Socket socket;
