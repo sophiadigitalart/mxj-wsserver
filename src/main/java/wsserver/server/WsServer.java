@@ -36,7 +36,7 @@ public class WsServer {
 		IgnoreError ign = new IgnoreError();
 		Loop loop = new Loop();
 		Request request = new Request(null,null,null);
-		Websocket ws = new Websocket(null);
+		Websocket ws = new Websocket(0, null);
 		Sha1 sha = new Sha1();
 		Runner r = new Runner();
 	}

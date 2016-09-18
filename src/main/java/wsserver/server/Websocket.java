@@ -11,14 +11,14 @@ import wsserver.util.Runner;
 
 public class Websocket {
 
-	private static int wsids = 0;
-	private final int wsid = ++wsids;
+	private final int wsid;
 	private final Socket socket;
 	private Consumer<String> messageHandler;
 	private Runner closeListener;
 	private Consumer<Throwable> errorHandler;
 
-	public Websocket(Socket socket) {
+	public Websocket(int request_id, Socket socket) {
+		wsid = request_id;
 		this.socket = socket;
 	}
 

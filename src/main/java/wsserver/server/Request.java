@@ -65,7 +65,7 @@ public class Request implements Runnable {
 			if("websocket".equals(headers.get("Upgrade"))) {
 				MaxObject.post("Request #" + rid + ": Upgrade to websocket");
 				upgrade();
-				Websocket ws = new Websocket(socket);
+				Websocket ws = new Websocket(rid, socket);
 				websocketHandler.accept(ws);
 				ws.run();
 			}
