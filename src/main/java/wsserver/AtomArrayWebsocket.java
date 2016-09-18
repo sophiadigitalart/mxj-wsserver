@@ -24,7 +24,6 @@ import wsserver.util.Runner;
 public class AtomArrayWebsocket extends Consumer<Websocket> {
 	final static Atom msg = Atom.newAtom("msg");
 
-	private static int wsids = 0;
 	private MaxObject maxObject;
 	private Map<Integer, Websocket> sockets = new HashMap<Integer, Websocket>();
 
@@ -43,10 +42,10 @@ public class AtomArrayWebsocket extends Consumer<Websocket> {
 	}
 
 	@Override
-	public void accept(Websocket websocket) {
-		final int wsid = ++wsids;
-		final Atom wsid_a = Atom.newAtom(wsid);
-		sockets.put(wsid, websocket);
+	public void accept(final Websocket websocket) {
+		
+		final Atom wsid_a = Atom.newAtom(websocket.getId());
+		sockets.put(websocket.getId(), websocket);
 		maxObject.outlet(0, "start", wsid_a);
 		websocket.onMessage(new Consumer<String>() {
 			public void accept(String message) {
@@ -61,14 +60,14 @@ public class AtomArrayWebsocket extends Consumer<Websocket> {
 		websocket.onClose(new Runner() {
 			public void run() {
 				maxObject.outlet(0, "stop", wsid_a);
-				sockets.remove(wsid);
+				sockets.remove(websocket.getId());
 			}
 		});
 
 		websocket.onError(new Consumer<Throwable>() {
 			public void accept(Throwable t) {
 				maxObject.outlet(0, "stop", wsid_a);
-				sockets.remove(wsid);
+				sockets.remove(websocket.getId());
 				if(!"Socket closed".equals(t.getMessage())) MaxObject.showException("ApiServer websocket error", t);
 			}
 		});

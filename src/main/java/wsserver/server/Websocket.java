@@ -11,6 +11,8 @@ import wsserver.util.Runner;
 
 public class Websocket {
 
+	private static int wsids = 0;
+	private final int wsid = ++wsids;
 	private final Socket socket;
 	private Consumer<String> messageHandler;
 	private Runner closeListener;
@@ -20,6 +22,10 @@ public class Websocket {
 		this.socket = socket;
 	}
 
+	public int getId() {
+		return wsid;
+	}
+	
 	public void onMessage(Consumer<String> handler) {
 		this.messageHandler = handler;
 	}
