@@ -35,6 +35,7 @@ public class FileResolver {
 		if(root == null) return null;
 		if(path.contains("..")) return null;
 		if("/".equals(path)) return findIndex(root);
+		path = path.replace("/", File.separator);
 		File file = new File (root, path);
 		if(!file.exists()) return null;
 		if(!file.isDirectory()) return file;
