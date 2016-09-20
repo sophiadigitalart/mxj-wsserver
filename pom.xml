@@ -16,7 +16,7 @@
 			<artifactId>max-lib</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>/Applications/Max.app/Contents/Resources/C74/packages/max-mxj/java-classes/lib/max.jar</systemPath>
+			<systemPath>${project.basedir}/max-includes/max.jar</systemPath>
 		</dependency>
 	</dependencies>
 
