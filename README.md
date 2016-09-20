@@ -3,7 +3,7 @@
 ####A Max/Msp mxj object to serve files and communicate via websockets.
 
 #####Attributes:
- - port (80-65535): the port the server listens on. Set triggers restart if running.
+ - port (8080-65535): the port the server listens on. Set triggers restart if running.
  - webroot (folder): the base folder to look in when receiving http get requests.
 	
 #####Understands:
@@ -32,7 +32,7 @@
 ```js
 var ws = new WebSocket("ws://" + location.hostname + ":" + location.port)
 ws.onopen = function() {
-  ws.send("my message")
+  ws.send("echo my message")
 }
 ws.onmessage = function(e) {
   console.log("received echo? " + ("my message" == e.data))
