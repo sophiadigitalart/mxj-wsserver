@@ -30,6 +30,17 @@ public class FileResolver {
 		this.root = root;
 		MaxObject.post("FileResolver: set file root to " + root.getAbsolutePath());
 	}
+
+	public boolean canServeFileType(String filename) {
+		if(filename.endsWith(".html")) return true;
+		if(filename.endsWith(".js")) return true;
+		if(filename.endsWith(".css")) return true;
+		if(filename.endsWith(".jpg")) return true;
+		if(filename.endsWith(".jpeg")) return true;
+		if(filename.endsWith(".png")) return true;
+		if(filename.endsWith(".gif")) return true;
+		return false;
+	}
 	
 	public File get(String path) {
 		if(root == null) return null;
@@ -38,7 +49,10 @@ public class FileResolver {
 		path = path.replace("/", File.separator);
 		File file = new File (root, path);
 		if(!file.exists()) return null;
-		if(!file.isDirectory()) return file;
+		if(!file.isDirectory()) {
+			if(!canServeFileType(file.getName())) return null;
+			return file;
+		}
 		return findIndex(file);
 	}
 	

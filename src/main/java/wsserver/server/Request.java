@@ -108,7 +108,7 @@ public class Request implements Runnable {
 
 		os.write("HTTP/1.1 200 OK\r\n".getBytes());
 		os.write(("Host: " + headers.get("Host") + "\r\n").getBytes());
-		if("jpg".equals(ext) || "gif".equals(ext) || "png".equals(ext)) {
+		if("jpeg".equals(ext) || "gif".equals(ext) || "png".equals(ext)) {
 			os.write("Accept-Ranges: bytes\r\n".getBytes());
 			os.write(("Content-Length: " + file.length() + "\r\n").getBytes());
 			os.write(("Content-Type: image/" + ext + "\r\n").getBytes()); 
