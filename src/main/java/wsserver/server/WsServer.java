@@ -3,6 +3,9 @@ package wsserver.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -52,13 +55,17 @@ public class WsServer {
 	private final FileResolver fileResolver = new FileResolver();
 	private int port = 8080;
 	private ServerSocket serverSocket;
+	private Set<Socket> openSockets = new HashSet<Socket>();
 
 	class Loop implements Runnable {
 		public void run() {
 			MaxObject.post("WsServer.Loop: accepting connections on port " + serverSocket.getLocalPort());
 			try {
 				while(true) {
+					Iterator<Socket> os = openSockets.iterator();
+					while(os.hasNext()) { if(os.next().isClosed()) os.remove(); }
 					Socket s = serverSocket.accept();
+					openSockets.add(s);
 					MaxObject.post("WsServer.Loop: Accepted connection from " + s.getRemoteSocketAddress()); 
 					executorService.submit(new Request(fileResolver, websocketHandler, s));
 				}
@@ -130,6 +137,7 @@ public class WsServer {
 			executorService.shutdown();
 			executorService.awaitTermination(10, TimeUnit.MILLISECONDS);
 		} catch (Exception e) {}
+		for(Socket s : openSockets) IgnoreError.close(s);
 		if(!error) IgnoreError.run(closeListener);
 		state = State.stopped;
 	}

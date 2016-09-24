@@ -4,7 +4,7 @@
 	<groupId>max-wsserver</groupId>
 	<artifactId>wsserver</artifactId>
 	<description>"A websocket and file server for Cycling74's Max/Msp"</description>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<properties>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
