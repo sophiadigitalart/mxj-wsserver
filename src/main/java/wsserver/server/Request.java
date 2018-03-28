@@ -108,14 +108,16 @@ public class Request implements Runnable {
 
 		os.write("HTTP/1.1 200 OK\r\n".getBytes());
 		os.write(("Host: " + headers.get("Host") + "\r\n").getBytes());
-		if("jpeg".equals(ext) || "gif".equals(ext) || "png".equals(ext)) {
+		if("jpeg".equals(ext) || "gif".equals(ext) || "png".equals(ext) || "mp4".equals(ext)) {
 			os.write("Accept-Ranges: bytes\r\n".getBytes());
 			os.write(("Content-Length: " + file.length() + "\r\n").getBytes());
-			os.write(("Content-Type: image/" + ext + "\r\n").getBytes()); 
+			if("mp4".equals(ext)) os.write(("Content-Type: video/" + ext + "\r\n").getBytes());
+			else os.write(("Content-Type: image/" + ext + "\r\n").getBytes());
 		}
 		else if("css".equals(ext)) os.write("Content-Type: text/css\r\n".getBytes());
 		else if("js".equals(ext)) os.write("Content-Type: application/javascript\r\n".getBytes());
-		else if("html".equals(ext)) os.write("Content-Type: text/html\r\n".getBytes()); 
+		else if("html".equals(ext)) os.write("Content-Type: text/html\r\n".getBytes());
+		else if("json".equals(ext)) os.write("Content-Type: application/json\r\n".getBytes());
 		os.write("\r\n".getBytes());
 		writeFile(file, socket.getOutputStream());
 		os.flush();

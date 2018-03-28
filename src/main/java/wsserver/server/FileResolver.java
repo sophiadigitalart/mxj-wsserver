@@ -39,6 +39,8 @@ public class FileResolver {
 		if(filename.endsWith(".jpeg")) return true;
 		if(filename.endsWith(".png")) return true;
 		if(filename.endsWith(".gif")) return true;
+		if(filename.endsWith(".json")) return true;
+		if(filename.endsWith(".mp4")) return true;
 		return false;
 	}
 	
